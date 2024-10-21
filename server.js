@@ -1,5 +1,4 @@
 const express = require('express');
-const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const cors = require('cors');
 const bodyParser = require('body-parser');
@@ -13,9 +12,6 @@ const connectDB = require('./config/db');
 dotenv.config();
 const app = express();
 
-// Middleware to parse JSON body
-app.use(bodyParser.json());  // You can remove this if you use express.json()
-app.use(express.json()); // This middleware is sufficient for parsing JSON
 
 // CORS configuration
 const corsOptions = {
@@ -27,6 +23,10 @@ const corsOptions = {
 
 // Apply CORS middleware
 app.use(cors(corsOptions));
+
+// Middleware to parse JSON body
+app.use(bodyParser.json());  // You can remove this if you use express.json()
+app.use(express.json()); // This middleware is sufficient for parsing JSON
 
 // DB Connection
 connectDB();
