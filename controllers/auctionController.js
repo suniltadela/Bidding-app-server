@@ -24,7 +24,21 @@ exports.createAuction = async (req, res) => {
     });
 
     await auction.save();
-    res.json({auction,msg:"auction created succesfully"});
+    res.json({ auction, msg: "auction created successfully" });
+  } catch (err) {
+    res.status(500).send('Server error');
+  }
+};
+
+
+
+// Get auctions by user ID
+exports.getAuctionsByUserId = async (req, res) => {
+  const userId = req.params.id;
+
+  try {
+    const auctions = await Auction.find({ creator: userId }).populate('creator', 'name'); // Find auctions by user
+    res.json(auctions); // Send auctions back to the client
   } catch (err) {
     res.status(500).send('Server error');
   }

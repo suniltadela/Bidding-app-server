@@ -2,10 +2,18 @@ const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
+// Helper function to serialize user data
+const serializeUser = (user) => {
+  return {
+    id: user.id, // User ID
+    firstname: user.firstname, // First name
+    email: user.email, // Email
+  };
+};
+
 // Register User
 exports.register = async (req, res) => {
-  const { firstname,lastname, email, password } = req.body;
-  console.log(firstname,lastname,email,password)
+  const { firstname, lastname, email, password } = req.body;
 
   try {
     let user = await User.findOne({ email });
@@ -13,13 +21,13 @@ exports.register = async (req, res) => {
       return res.status(400).json({ msg: 'User already exists' });
     }
 
-    user = new User({ firstname,lastname, email, password });
+    user = new User({ firstname, lastname, email, password });
     await user.save();
 
     const payload = { user: { id: user.id } };
     jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' }, (err, token) => {
       if (err) throw err;
-      res.json({ token,msg:"signup success" });
+      res.json({ token, user: serializeUser(user), msg: "Signup success" });
     });
   } catch (err) {
     res.status(500).send('Server error');
@@ -44,10 +52,9 @@ exports.login = async (req, res) => {
     const payload = { user: { id: user.id } };
     jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' }, (err, token) => {
       if (err) throw err;
-      res.json({ token ,msg:"login success"});
+      res.json({ token, user: serializeUser(user), msg: "Login success" });
     });
   } catch (err) {
     res.status(500).send('Server error');
   }
 };
-
