@@ -21,9 +21,10 @@ const corsOptions = {
     origin: 'https://bidding-app-client.vercel.app', // Update with your frontend URL
     credentials: true,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
-    allowedHeaders: 'Content-Type, Authorization',
+    allowedHeaders: ['Content-Type', 'Authorization', 'x-auth-token'], // Include 'x-auth-token'
 };
 
+// Apply CORS middleware
 app.use(cors(corsOptions));
 app.options('*', cors(corsOptions));
 // app.use(cors());
