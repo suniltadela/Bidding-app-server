@@ -18,7 +18,7 @@ const app = express();
 app.use(bodyParser.json());
 // Middleware
 const corsOptions = {
-    origin: 'https://bidding-app-client.vercel.app/', // Update with your frontend URL
+    origin: 'https://bidding-app-client.vercel.app', // Update with your frontend URL
     credentials: true,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     allowedHeaders: 'Content-Type, Authorization',
