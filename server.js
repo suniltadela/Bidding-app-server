@@ -12,13 +12,13 @@ const connectDB = require('./config/db');
 dotenv.config();
 const app = express();
 
-
 // CORS configuration
 const corsOptions = {
     origin: 'https://bidding-app-client.vercel.app', // Update with your frontend URL
     credentials: true,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     allowedHeaders: ['Content-Type', 'Authorization', 'x-auth-token'], // Include 'x-auth-token'
+    optionsSuccessStatus: 200 // Some legacy browsers (IE11, various SmartTVs) choke on 204
 };
 
 // Apply CORS middleware
@@ -27,6 +27,9 @@ app.use(cors(corsOptions));
 // Middleware to parse JSON body
 app.use(bodyParser.json());  // You can remove this if you use express.json()
 app.use(express.json()); // This middleware is sufficient for parsing JSON
+
+// Handle preflight requests
+app.options('*', cors(corsOptions));
 
 // DB Connection
 connectDB();
