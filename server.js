@@ -18,15 +18,12 @@ const app = express();
 app.use(bodyParser.json());
 // Middleware
 const corsOptions = {
-    origin: [process.env.BASE_URL], // Your frontend URL
+    origin: 'https://bidding-app-client.vercel.app/', // Update with your frontend URL
     credentials: true,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     allowedHeaders: 'Content-Type, Authorization',
-    preflightContinue: false,
-    optionsSuccessStatus: 204,
 };
 
-// Apply CORS middleware
 app.use(cors(corsOptions));
 app.options('*', cors(corsOptions));
 // app.use(cors());
