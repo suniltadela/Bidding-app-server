@@ -17,7 +17,19 @@ dotenv.config();
 const app = express();
 app.use(bodyParser.json());
 // Middleware
-app.use(cors());
+const corsOptions = {
+    origin: [process.env.BASE_URL], // Your frontend URL
+    credentials: true,
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    allowedHeaders: 'Content-Type, Authorization',
+    preflightContinue: false,
+    optionsSuccessStatus: 204,
+};
+
+// Apply CORS middleware
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
+// app.use(cors());
 app.use(express.json());
 
 // DB Connection
