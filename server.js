@@ -25,7 +25,11 @@ app.use(express.json());
 //   .then(() => console.log('MongoDB connected'))
 //   .catch(err => console.error('MongoDB connection error:', err));
 connectDB();
-
+// Simple GET request to check if the server is working
+app.get('/', (req, res) => {
+    res.status(200).json({ message: 'Server is working!' });
+  });
+  
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/auctions', auctionRoutes);

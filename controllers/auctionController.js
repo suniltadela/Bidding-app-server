@@ -29,6 +29,72 @@ exports.createAuction = async (req, res) => {
     res.status(500).send('Server error');
   }
 };
+// Update an auction
+exports.updateAuction = async (req, res) => {
+  const { id } = req.params;
+  // Destructure properties from req.body
+  const { title, description, startingBid, endDate } = req.body;
+  try {
+    const auction = await Auction.findByIdAndUpdate(id, {
+      title,
+      description,
+      startingBid,
+      endDate,
+    }, { new: true }); // Return the updated auction
+
+    if (!auction) {
+      return res.status(404).send('Auction not found');
+    }
+
+    res.json({ auction, msg: "Auction updated successfully" });
+  } catch (err) {
+    console.error('Error updating auction:', err);
+    res.status(500).send('Server error');
+  }
+};
+
+// Update current bid of an auction
+exports.updateCurrentBid = async (req, res) => {
+  const { id } = req.params;
+  const { currentBid } = req.body;
+
+  try {
+    // Find the auction by ID and update the current bid
+    const auction = await Auction.findByIdAndUpdate(
+      id,
+      { currentBid },
+      { new: true } // Return the updated auction
+    );
+
+    if (!auction) {
+      return res.status(404).send('Auction not found');
+    }
+
+    res.json({ auction, msg: "Bid updated successfully" });
+  } catch (err) {
+    res.status(500).send('Server error');
+  }
+};
+
+
+
+
+// Delete an auction
+exports.deleteAuction = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const auction = await Auction.findByIdAndDelete(id);
+
+    if (!auction) {
+      return res.status(404).send('Auction not found');
+    }
+
+    res.json({ msg: "Auction deleted successfully" });
+  } catch (err) {
+    res.status(500).send('Server error');
+  }
+};
 
 
 
