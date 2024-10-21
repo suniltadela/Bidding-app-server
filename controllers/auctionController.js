@@ -104,9 +104,17 @@ exports.getAuctionsByUserId = async (req, res) => {
 
   try {
     const auctions = await Auction.find({ creator: userId }).populate('creator', 'name'); // Find auctions by user
+
+    // Check if auctions exist
+    if (auctions.length === 0) {
+      return res.status(404).json({ message: 'No auctions created for this user.' });
+    }
+
     res.json(auctions); // Send auctions back to the client
   } catch (err) {
+    console.error(err); // Log the error for debugging
     res.status(500).send('Server error');
   }
 };
+
 
