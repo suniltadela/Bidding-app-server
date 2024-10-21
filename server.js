@@ -24,7 +24,7 @@ app.use(express.json());
 connectDB();
 // Simple GET request to check if the server is working
 app.get('/', (req, res) => {
-    res.status(200).json({ message: 'Server is working!' });
+    res.send('Server is working!');
   });
   
 // Routes
